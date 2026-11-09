@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Ôn Tập Giữa HK1 - Tiếng Anh 11 - Đề 13</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Bubble Fill style for Scantron */
+        .bubble-input {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #475569;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #fff;
+        }
+        .bubble-input:checked {
+            background-color: #1e293b;
+            border-color: #0f172a;
+            box-shadow: inset 0 0 0 2px #e2e8f0;
+        }
+        .bubble-input:hover {
+            border-color: #2563eb;
+            transform: scale(1.1);
+        }
+        
+        /* Answer status styles after grading */
+        .bubble-correct {
+            background-color: #22c55e !important;
+            border-color: #16a34a !important;
+            box-shadow: 0 0 0 2px #bbf7d0;
+        }
+        .bubble-wrong {
+            background-color: #ef4444 !important;
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 2px #fecaca;
+        }
+
+        /* Scantron specific grid styles */
+        .scantron-paper {
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Laser Beam Scanner Animation */
+        #scanner-beam {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.8) 50%, rgba(29, 78, 216, 1) 100%);
+            box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.75), 0 0 30px 10px rgba(37, 99, 235, 0.5);
+            display: none;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        @keyframes scanAnimation {
+            0% { top: 0%; opacity: 1; }
+            50% { top: 98%; opacity: 1; }
+            100% { top: 0%; opacity: 0.8; }
+        }
+
+        .scanning #scanner-beam {
+            display: block;
+            animation: scanAnimation 2.5s ease-in-out infinite;
+        }
+
+        /* Listening Audio Player Custom styling */
+        .audio-player-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER / NAVIGATION TOOLBAR -->
+    <header class="sticky top-0 z-40 bg-slate-900 text-white shadow-md border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-blue-600 text-white font-bold px-2.5 py-1 rounded text-sm tracking-wide">ĐỀ 13</span>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight">ĐỀ ÔN TẬP GIỮA HỌC KỲ I - NĂM HỌC 2026-2027</h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Môn: TIẾNG ANH 11 | Nội dung 100% chuẩn cấu trúc</p>
+                </div>
+            </div>
+
+            <!-- CONTROLS & TIMER -->
+            <div class="flex items-center space-x-3 sm:space-x-6">
+                <!-- Countdown Timer -->
+                <div class="flex items-center bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                    <i class="fa-regular fa-clock text-blue-400 mr-2 text-lg"></i>
+                    <span id="timer-display" class="font-mono text-lg font-bold text-amber-400">45:00</span>
+                    <button id="btn-toggle-timer" onclick="toggleTimer()" class="ml-2.5 text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 py-1 rounded transition" title="Bắt đầu/Tạm dừng">
+                        <i id="timer-icon" class="fa-solid fa-play"></i>
+                    </button>
+                    <button onclick="resetTimer()" class="ml-1 text-xs text-slate-400 hover:text-slate-200 p-1" title="Đặt lại">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="confirmSubmit()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition transform active:scale-95 flex items-center space-x-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Nộp Bài</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT LAYOUT -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- LEFT COLUMN: QUESTION PAPER (Lg: 7 cols) -->
+        <section class="lg:col-span-7 flex flex-col space-y-6">
+            
+            <!-- ENHANCED AUDIO PLAYER & FILE UPLOADER SECTION -->
+            <div class="audio-player-card rounded-xl p-4 text-white shadow-lg border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-headphones text-blue-400 text-lg"></i>
+                        <h2 class="font-semibold text-sm sm:text-base">Bài Nghe Tiếng Anh (Listening Player)</h2>
+                    </div>
+                    <span class="text-xs bg-blue-900/80 text-blue-300 px-2.5 py-0.5 rounded-full border border-blue-700/50">Phần I (Listening)</span>
+                </div>
+                
+                <!-- File Picker Input for Local MP3 -->
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-dashed border-slate-600 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <i class="fa-solid fa-file-audio text-amber-400 text-xl"></i>
+                        <div>
+                            <p class="font-medium text-slate-200">Tải bài nghe từ thiết bị của bạn:</p>
+                            <p id="loaded-filename" class="text-[11px] text-slate-400 italic">Chưa chọn file (Chọn file mp3 đính kèm của bạn để phát)</p>
+                        </div>
+                    </div>
+                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shrink-0 flex items-center space-x-1.5 shadow">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Chọn file MP3</span>
+                        <input type="file" id="local-audio-file" accept="audio/*" onchange="loadLocalAudio(event)" class="hidden">
+                    </label>
+                </div>
+
+                <!-- Custom Audio Control Toolbar -->
+                <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 space-y-3">
+                    <audio id="main-audio-player" class="hidden"></audio>
+
+                    <!-- Time & Progress Bar -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-slate-300 font-mono">
+                            <span id="audio-curr-time">00:00</span>
+                            <span id="audio-dur-time">00:00</span>
+                        </div>
+                        <input type="range" id="audio-seek-bar" value="0" min="0" max="100" step="0.1" oninput="seekAudio(this.value)" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    </div>
+
+                    <!-- Player Actions -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <!-- Play/Pause & Rewind/Forward -->
+                        <div class="flex items-center space-x-2">
+                            <button onclick="skipAudio(-5)" class="bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded text-slate-200 transition" title="Lùi 5 giây">
+                                <i class="fa-solid fa-rotate-left"></i> -5s
+                            </button>
+                            <button id="btn-play-audio" onclick="toggleAudioPlay()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-1.5 rounded-lg transition flex items-center space-x-1.5">
+                                <i id="audio-play-icon" class="fa-solid fa-play"></i>
+                                <span id="audio-play-text">Phát</span>
+                            </button>
+                            <button onclick="skipAudio(5)" class="bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded text-slate-200 transition" title="Tiến 5 giây">
+                                +5s <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Speed Controls -->
+                        <div class="flex items-center space-x-1 bg-slate-900/60 p-1 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-slate-400 px-1 font-semibold">Tốc độ:</span>
+                            <button onclick="setPlaybackSpeed(0.75)" class="speed-btn px-1.5 py-0.5 rounded text-[11px] hover:bg-slate-700">0.75x</button>
+                            <button onclick="setPlaybackSpeed(1.0)" class="speed-btn px-1.5 py-0.5 rounded text-[11px] bg-blue-600 text-white font-bold">1x</button>
+                            <button onclick="setPlaybackSpeed(1.25)" class="speed-btn px-1.5 py-0.5 rounded text-[11px] hover:bg-slate-700">1.25x</button>
+                            <button onclick="setPlaybackSpeed(1.5)" class="speed-btn px-1.5 py-0.5 rounded text-[11px] hover:bg-slate-700">1.5x</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTIONS DISPLAY BOX -->
+            <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden flex flex-col">
+                <div class="bg-slate-100 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="font-bold text-slate-700 flex items-center text-lg">
+                        <i class="fa-solid fa-file-lines text-blue-600 mr-2.5"></i>
+                        ĐỀ THI TIẾNG ANH 11 - ĐỀ 13
+                    </h2>
+                    <span class="text-xs text-slate-500 italic">Tick chọn đáp án vào Phiếu Trả Lời bên phải</span>
+                </div>
+
+                <div class="p-4 sm:p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-250px)]" id="questions-container">
+                    
+                    <!-- SECTION I: LISTENING -->
+                    <div class="border-b border-slate-200 pb-6">
+                        <h3 class="font-bold text-blue-900 uppercase text-base border-l-4 border-blue-600 pl-3 mb-4">
+                            I. LISTENING
+                        </h3>
+
+                        <!-- PART 1 -->
+                        <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 mb-2">PART 1: For questions 1-5, listen to two people. Choose the correct answer, A, B, C or D.</h4>
+
+                            <div class="space-y-4">
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-medium text-slate-800">Question 1. How many hours of sleep does Dr. Dorothy Allen recommend each night?</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm text-slate-700">
+                                        <div>A. Five to six hours.</div>
+                                        <div>B. Six to seven hours.</div>
+                                        <div>C. Seven to nine hours.</div>
+                                        <div>D. Nine to ten hours.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-medium text-slate-800">Question 2. What should people eat for a balanced diet?</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm text-slate-700">
+                                        <div>A. Meat and vegetables.</div>
+                                        <div>B. Fish and added sugar.</div>
+                                        <div>C. Fruit and fast food.</div>
+                                        <div>D. Meat and sweet snacks.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-medium text-slate-800">Question 3. How many days a week should people rest and enjoy a healthy social life?</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm text-slate-700">
+                                        <div>A. One day.</div>
+                                        <div>B. Two days.</div>
+                                        <div>C. Three days.</div>
+                                        <div>D. Four days.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-medium text-slate-800">Question 4. What is the main topic of the conversation?</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm text-slate-700">
+                                        <div>A. How to choose a good doctor.</div>
+                                        <div>B. How to write a health book.</div>
+                                        <div>C. How to develop a fitness career.</div>
+                                        <div>D. How to live a healthier life.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-medium text-slate-800">Question 5. Why is getting enough sleep especially important for teenagers?</p>
+                                    <div class="grid grid-cols-1 gap-1.5 mt-2 text-sm text-slate-700">
+                                        <div>A. It helps them spend more time with friends.</div>
+                                        <div>B. It helps their brains and manage feelings.</div>
+                                        <div>C. It helps them avoid eating meat and vegetables.</div>
+                                        <div>D. It helps them exercise every day without resting.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PART 2 -->
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 mb-2">PART 2: For questions 6-10, listen to the dialogue and decide whether the following statements are True or False. You will hear the conversation twice.</h4>
+
+                            <div class="space-y-3">
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p><span class="font-semibold">Question 6.</span> John says people do not use the current buses.</p>
+                                    <div class="flex space-x-4 mt-1 font-semibold text-slate-700">
+                                        <span>A. True</span>
+                                        <span>B. False</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p><span class="font-semibold">Question 7.</span> Susan says flying buses are faster than old buses.</p>
+                                    <div class="flex space-x-4 mt-1 font-semibold text-slate-700">
+                                        <span>A. True</span>
+                                        <span>B. False</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p><span class="font-semibold">Question 8.</span> Michael explains that traffic congestion makes regular buses move too slowly.</p>
+                                    <div class="flex space-x-4 mt-1 font-semibold text-slate-700">
+                                        <span>A. True</span>
+                                        <span>B. False</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p><span class="font-semibold">Question 9.</span> John finally disagrees with Susan and Michael.</p>
+                                    <div class="flex space-x-4 mt-1 font-semibold text-slate-700">
+                                        <span>A. True</span>
+                                        <span>B. False</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p><span class="font-semibold">Question 10.</span> Reasonable fares may attract commuters, while flying buses may also encourage tourism and increase the city's income.</p>
+                                    <div class="flex space-x-4 mt-1 font-semibold text-slate-700">
+                                        <span>A. True</span>
+                                        <span>B. False</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION II: LANGUAGE -->
+                    <div class="border-b border-slate-200 pb-6">
+                        <h3 class="font-bold text-blue-900 uppercase text-base border-l-4 border-blue-600 pl-3 mb-4">
+                            II. LANGUAGE
+                        </h3>
+
+                        <p class="text-sm italic font-medium text-slate-700 mb-3">Mark the letter A, B, C or D on your answer sheet to indicate the correct answer to each of the following questions.</p>
+                        
+                        <div class="space-y-3">
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-semibold text-slate-800">Question 11. Indicate the word that differs from the other three in the position of primary stress in this question.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. model</div>
+                                    <div>B. design</div>
+                                    <div>C. decide</div>
+                                    <div>D. reduce</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-semibold text-slate-800">Question 12. Indicate the word that differs from the other three in the position of primary stress in this question.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. footprint</div>
+                                    <div>B. allow</div>
+                                    <div>C. limit</div>
+                                    <div>D. modern</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 13. Peter _________ as a teacher for 2 years.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. has work</div>
+                                    <div>B. has worked</div>
+                                    <div>C. have worked</div>
+                                    <div>D. have work</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 14. Spectators must_________ their tickets before they enter My Dinh stadium.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. show</div>
+                                    <div>B. to show</div>
+                                    <div>C. showing</div>
+                                    <div>D. to showing</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 15. Last night's leftover food in the fridge smells ______.. Don't eat it.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. awful</div>
+                                    <div>B. awfully</div>
+                                    <div>C. well</div>
+                                    <div>D. badly</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 16. Teenagers tend to be ________ and want to make their own decisions without being controlled by their parents.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. dependently</div>
+                                    <div>B. independence</div>
+                                    <div>C. independent</div>
+                                    <div>D. dependence</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 17. If people use more _______ energy, their negative impact on the environment will be decreased.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. limited</div>
+                                    <div>B. renewable</div>
+                                    <div>C. non-renewable</div>
+                                    <div>D. fossil fuel</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 18. She looks _______ because she doesn’t get good grades in the final exam.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. unhappy</div>
+                                    <div>B. happily</div>
+                                    <div>C. happiness</div>
+                                    <div>D. happy</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 19. Mark the letter A, B, C, or D to indicate the word(s) CLOSEST in meaning to the underlined word(s) in the sentence: Old people have an <u>active</u> lifestyle and are cared for by their families.</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                    <div>A. independent</div>
+                                    <div>B. simple</div>
+                                    <div>C. energetic</div>
+                                    <div>D. passive</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                                <p class="font-medium">Question 20. Mark the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s) in the sentence: I noticed that you were looking a little <u>under the weather</u>. You coughed a lot.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                                    <div>A. as pale as a ghost</div>
+                                    <div>B. green around the gills</div>
+                                    <div>C. off color</div>
+                                    <div>D. in the pink</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION III: READING -->
+                    <div class="border-b border-slate-200 pb-6">
+                        <h3 class="font-bold text-blue-900 uppercase text-base border-l-4 border-blue-600 pl-3 mb-4">
+                            III. READING
+                        </h3>
+
+                        <!-- Passage 1 -->
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-6">
+                            <h4 class="font-semibold text-slate-800 mb-2">PART 1: Read the following passage and mark the letter A, B, C or D on your answer sheet to indicate the word that best fits each of the numbered blanks from 21 to 25.</h4>
+                            
+                            <div class="bg-white p-4 rounded border border-slate-200 leading-relaxed text-sm text-slate-700 my-3">
+                                <p>Everyone knows that exercise is good for the body and the mind. We all want to keep fit and look good, but too many of us take (21) _______ the wrong sport and quickly lose interest. So now fitness experts are advising people to choose an activity that matches their character.</p>
+                                <p class="mt-2">For instance, those (22) _______ like to be with other people often enjoy golf or squash, or playing for a basketball, football, or hockey team. (23) _______, you may prefer to go jogging or swimming if you’re happier on your own.</p>
+                                <p class="mt-2">Do you like competition? Then try something like running, or a racket sport such as tennis. If, on the other hand, (24) _______ isn’t important to you, then activities like dancing can be an enjoyable (25) _______ without the need to show you’re better than everyone else.</p>
+                                <p class="mt-2">Finally, think about whether you find it easy to make yourself do exercise. If so, sports like weight training at home and cycling are fine. If not, book a skiing holiday, Taekwondo lessons, or a tennis court. You’re much more likely to do something you’ve already paid for!</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 text-sm">
+                                <div class="bg-white p-2.5 rounded border border-slate-200">
+                                    <span class="font-semibold">Question 21:</span> A. down | B. out | C. in | D. up
+                                </div>
+                                <div class="bg-white p-2.5 rounded border border-slate-200">
+                                    <span class="font-semibold">Question 22:</span> A. who | B. whose | C. which | D. what
+                                </div>
+                                <div class="bg-white p-2.5 rounded border border-slate-200">
+                                    <span class="font-semibold">Question 23:</span> A. therefore | B. thus | C. however | D. while
+                                </div>
+                                <div class="bg-white p-2.5 rounded border border-slate-200">
+                                    <span class="font-semibold">Question 24:</span> A. winners | B. winning | C. win | D. won
+                                </div>
+                                <div class="bg-white p-2.5 rounded border border-slate-200 sm:col-span-2">
+                                    <span class="font-semibold">Question 25:</span> A. challenge | B. victory | C. defeat | D. score
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Passage 2 -->
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 mb-2">PART 2: Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the correct answer to each of the questions from 26 to 30.</h4>
+
+                            <div class="bg-white p-4 rounded border border-slate-200 leading-relaxed text-sm text-slate-700 my-3">
+                                <p>Where smart cities were once regarded purely as a vision of the future, they are now becoming a reality in numerous urban centres across the globe. From Dubai, Singapore, Amsterdam, Copenhagen, and Madrid to Southampton in the UK, we’re already beginning to see smart cities provide inhabitants with improved living conditions, easier mobility and cleaner, safer environments, by using cloud computing to power services. But as with all public sector initiatives, smart city services need to be delivered as cost effectively as possible to minimize the taxpayer burden. Often, key decision makers are met with obstacles when it comes to deploying smart services, preventing smart cities initiatives from reaching their full potential – or worse, blocking them altogether.</p>
+                                <p class="mt-2">Central to the functioning of most ‘normal’ city ecosystems is the underlying data <u>they</u> run on. Regardless as to whether that data is stored on local servers or using cloud storage, when that data is fragmented or incomplete, identifying emerging trends for strategic planning and cost reduction becomes extremely difficult – and because of this, authorities have to adopt an entirely reactive approach. Conversely, in a smart city environment, connected sensors forming an Internet of Things (IoT) provide valuable data for analysis and, in turn, insight into the specific city’s behavioral trends. With this level of information, services can be optimized to reduce costs and risk, increase urban flows and manage assets. Importantly, they can also provide real-time connections and interactions between the city’s businesses, local governments, service providers and citizens.</p>
+                                <p class="mt-2">In this way, operations and services are <u>elevated</u> through the integration and connections of physical devices via IoT networks, ultimately transforming how a city runs.</p>
+                            </div>
+
+                            <div class="space-y-3 text-sm">
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-semibold">Question 26. Which best serves as the title for the passage?</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-1 text-slate-700">
+                                        <div>A. A question of data.</div>
+                                        <div>B. Alignment of minds.</div>
+                                        <div>C. Smart city’s supporters.</div>
+                                        <div>D. The same old route.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-semibold">Question 27. According to paragraph 2, what is the matter that the author wants to emphasize?</p>
+                                    <div class="space-y-1 mt-1 text-slate-700">
+                                        <div>A. Human’s urge to share information.</div>
+                                        <div>B. The importance of data network.</div>
+                                        <div>C. The possibilities of tech disasters.</div>
+                                        <div>D. The caliber of artificial intelligence.</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-semibold">Question 28. The word “they” in paragraph 2 refers to ___________ .</p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1 text-slate-700">
+                                        <div>A. environments</div>
+                                        <div>B. ecosystems</div>
+                                        <div>C. services</div>
+                                        <div>D. initiatives</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-semibold">Question 29. The word “elevated” in paragraph 3 can be replaced by __________.</p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1 text-slate-700">
+                                        <div>A. demoted</div>
+                                        <div>B. controlled</div>
+                                        <div>C. dignified</div>
+                                        <div>D. upgraded</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200">
+                                    <p class="font-semibold">Question 30. According to the passage, which of the following is NOT mentioned as a benefit of smart cities?</p>
+                                    <div class="space-y-1 mt-1 text-slate-700">
+                                        <div>A. Improving the quality of life for residents.</div>
+                                        <div>B. Reducing service costs and risks.</div>
+                                        <div>C. Providing real-time connections among different groups.</div>
+                                        <div>D. Creating more job opportunities for local people.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION IV: WRITING -->
+                    <div>
+                        <h3 class="font-bold text-blue-900 uppercase text-base border-l-4 border-blue-600 pl-3 mb-4">
+                            IV. WRITING
+                        </h3>
+
+                        <!-- PART 1 -->
+                        <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 mb-2">PART 1: Order of instructions / conversations</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p class="font-semibold">Question 31. Choose the correct order of the following instructions to complete the exercise routine.</p>
+                                    <p class="italic text-slate-600 my-1">a. Finally, run on the spot for 20 seconds.<br>b. Next, stand on one leg for 10 seconds.<br>c. First, do star jumps for 20 seconds.<br>d. Then, take a one-minute rest.</p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                        <div>A. b – c – d – a</div>
+                                        <div>B. c – d – b – a</div>
+                                        <div>C. d – c – a – b</div>
+                                        <div>D. c – b – d – a</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-slate-200 text-sm">
+                                    <p class="font-semibold">Question 32. Choose the correct order of the below conversation.</p>
+                                    <p class="italic text-slate-600 my-1">a. Nam: Hi, Mark! Long time no see. You look so good!<br>b. Nam: Yes, I have. I exercise every morning and eat more healthy food.<br>c. Mark: Hi, Nam! Thanks. You look so fit, too. Have you worked out a lot lately?</p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                                        <div>A. c – a – b</div>
+                                        <div>B. b – c – a</div>
+                                        <div>C. c – b – a</div>
+                                        <div>D. a – c – b</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PART 2, 3, 4: WRITTEN TASKS -->
+                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                            <h4 class="font-bold text-amber-900 mb-2 flex items-center">
+                                <i class="fa-solid fa-pen-nib mr-2"></i> PHẦN TỰ LUẬN (QUESTIONS 33 - 37)
+                            </h4>
+                            <p class="text-xs text-amber-800 mb-3">Lưu ý: Nhập câu trả lời cho các câu tự luận ở vùng nhập liệu bên phải dưới phiếu trắc nghiệm.</p>
+                            
+                            <div class="space-y-3 text-sm text-slate-800">
+                                <div class="bg-white p-3 rounded border border-amber-200">
+                                    <p class="font-semibold text-slate-900">Question 33 (Part 2). Rewrite sentence:</p>
+                                    <p class="italic">"It is forbidden for students to cheat in the exam."</p>
+                                    <p class="text-xs font-semibold text-blue-700 mt-1">→ Students ........................................................................</p>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-amber-200">
+                                    <p class="font-semibold text-slate-900">Question 34 (Part 2). Rewrite sentence:</p>
+                                    <p class="italic">"The last time I saw her was in 2021."</p>
+                                    <p class="text-xs font-semibold text-blue-700 mt-1">→ I ........................................................................</p>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-amber-200">
+                                    <p class="font-semibold text-slate-900">Question 35 (Part 3). Combine sentences:</p>
+                                    <p class="italic">"I started learning English three years ago. I still learn it now."</p>
+                                    <p class="text-xs font-semibold text-blue-700 mt-1">→ I have ........................................................................</p>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-amber-200">
+                                    <p class="font-semibold text-slate-900">Question 36 (Part 3). Combine sentences:</p>
+                                    <p class="italic">"It is a good idea for students to do exercise regularly. It helps them stay healthy."</p>
+                                    <p class="text-xs font-semibold text-blue-700 mt-1">→ Students ........................................................................</p>
+                                </div>
+
+                                <div class="bg-white p-3 rounded border border-amber-200">
+                                    <p class="font-semibold text-slate-900">Question 37 (Part 4). Write an opinion essay (120–150 words):</p>
+                                    <p class="italic text-xs text-slate-600 mt-1">"Some people think that parents should allow their teenage children to make their own decisions about their free time. Do you agree or disagree with this opinion? Give reasons and examples to support your answer."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: SCANTRON ANSWER SHEET & WRITING AREA (Lg: 5 cols) -->
+        <section class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <!-- SCANTRON SHEET -->
+            <div id="scantron-container" class="scantron-paper rounded-xl p-4 sm:p-5 border-2 border-slate-900 text-xs select-none">
+                
+                <!-- Laser Scanner Effect Line -->
+                <div id="scanner-beam"></div>
+
+                <!-- Header Title of Scantron -->
+                <div class="text-center border-b-2 border-slate-900 pb-2 mb-3">
+                    <h2 class="font-black text-sm sm:text-base uppercase tracking-wider text-slate-900">PHIẾU TRẢ LỜI TRẮC NGHIỆM</h2>
+                    <div class="flex justify-between items-center text-[10px] text-slate-600 mt-1 font-mono">
+                        <span>Kỳ thi: Giữa HK I 2026-2027</span>
+                        <span>Môn: Tiếng Anh 11</span>
+                    </div>
+                </div>
+
+                <!-- Student Info Form Mockup -->
+                <div class="grid grid-cols-12 gap-2 border border-slate-400 p-2 rounded mb-4 bg-slate-50/50">
+                    <div class="col-span-7 space-y-1">
+                        <div><span class="font-semibold">Họ tên:</span> <input type="text" placeholder="Nguyễn Văn A..." class="border-b border-slate-400 w-28 bg-transparent focus:outline-none px-1 text-[11px]"></div>
+                        <div><span class="font-semibold">Lớp:</span> <input type="text" placeholder="11A1" class="border-b border-slate-400 w-16 bg-transparent focus:outline-none px-1 text-[11px]"></div>
+                        <div><span class="font-semibold">SBD:</span> <input type="text" placeholder="123456" class="border-b border-slate-400 w-20 bg-transparent focus:outline-none px-1 text-[11px]"></div>
+                    </div>
+                    <div class="col-span-5 border-l border-slate-300 pl-2 text-center flex flex-col justify-center">
+                        <span class="text-[10px] text-slate-500 uppercase font-bold">Mã Đề Thi</span>
+                        <div class="text-lg font-black tracking-widest text-blue-900 my-0.5">013</div>
+                        <span class="text-[9px] text-slate-400">Phiếu Ôn Tập THPT</span>
+                    </div>
+                </div>
+
+                <!-- SCANTRON PART 1: 32 BUBBLE QUESTIONS (A, B, C, D) -->
+                <div class="mb-4">
+                    <div class="bg-slate-900 text-white font-bold px-2 py-0.5 mb-2 flex justify-between items-center rounded-t">
+                        <span>PHẦN I: Trắc nghiệm (Câu 1 - 32)</span>
+                        <span class="text-[10px] font-normal">Tô tròn ô đáp án chọn</span>
+                    </div>
+
+                    <!-- 2 Columns Grid layout for 32 questions -->
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 bg-slate-50 p-2 rounded border border-slate-200">
+                        <!-- Left Block: Q1 to Q16 -->
+                        <div class="space-y-1.5" id="scantron-p1-col1"></div>
+                        <!-- Right Block: Q17 to Q32 -->
+                        <div class="space-y-1.5" id="scantron-p1-col2"></div>
+                    </div>
+                </div>
+
+                <!-- SCANTRON PART 2: TRUE / FALSE BUBBLE MOCKUP (Questions 6-10 T/F) -->
+                <div class="mb-2">
+                    <div class="bg-slate-800 text-white font-bold px-2 py-0.5 mb-1.5 rounded-t text-[11px] flex justify-between">
+                        <span>PHẦN II: Đúng / Sai (Listening Part 2 Q6-Q10)</span>
+                        <span class="text-[9px] font-normal">A: True | B: False</span>
+                    </div>
+                    <div class="grid grid-cols-5 gap-1 text-center bg-slate-50 p-2 rounded border border-slate-200" id="scantron-p2-container">
+                        <!-- Questions 6 to 10 mapped here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESSAY / WRITING AREA -->
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-slate-200 space-y-4">
+                <div class="flex items-center justify-between border-b pb-2 border-slate-200">
+                    <h3 class="font-bold text-slate-800 flex items-center text-sm">
+                        <i class="fa-solid fa-pen-to-square text-amber-600 mr-2"></i> PHẦN LÀM BÀI TỰ LUẬN (WRITING)
+                    </h3>
+                    <span class="text-xs text-slate-400">Q33 - Q37</span>
+                </div>
+
+                <!-- Short Answer Writing (Q33 - Q36) -->
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="font-semibold text-slate-700 block mb-1">Câu 33 (Viết lại câu 1):</label>
+                        <input type="text" id="ans-q33" placeholder="Students ..." class="w-full border border-slate-300 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="font-semibold text-slate-700 block mb-1">Câu 34 (Viết lại câu 2):</label>
+                        <input type="text" id="ans-q34" placeholder="I ..." class="w-full border border-slate-300 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="font-semibold text-slate-700 block mb-1">Câu 35 (Kết hợp câu 1):</label>
+                        <input type="text" id="ans-q35" placeholder="I have ..." class="w-full border border-slate-300 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="font-semibold text-slate-700 block mb-1">Câu 36 (Kết hợp câu 2):</label>
+                        <input type="text" id="ans-q36" placeholder="Students ..." class="w-full border border-slate-300 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Essay Area (Q37) -->
+                <div class="pt-2">
+                    <div class="flex justify-between items-center mb-1 text-xs">
+                        <label class="font-semibold text-slate-700">Câu 37: Bài luận Essay (120-150 words):</label>
+                        <span id="word-count" class="text-slate-500 font-mono text-[11px]">0 từ</span>
+                    </div>
+                    <textarea id="ans-essay" rows="5" oninput="updateWordCount()" placeholder="Write your opinion essay here..." class="w-full border border-slate-300 rounded p-2.5 text-xs leading-relaxed focus:ring-2 focus:ring-blue-500 focus:outline-none font-sans"></textarea>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RESULT & EXPLANATION MODAL -->
+    <div id="result-modal" class="fixed inset-0 bg-slate-900/70 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-900 to-slate-900 text-white p-5 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-xl shadow">
+                        <span id="score-text">0/8.0</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">KẾT QUẢ BÀI THI - ĐỀ 13</h3>
+                        <p class="text-xs text-blue-200" id="summary-text">Đã chấm xong phần trắc nghiệm và ghi nhận bài tự luận</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-300 hover:text-white p-2 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content - Explanations -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm text-slate-800" id="explanations-content">
+                <!-- Dynamic Explanations injected here -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-100 p-4 border-t border-slate-200 flex justify-end">
+                <button onclick="closeModal()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium px-5 py-2 rounded-lg text-sm transition">
+                    Đóng và xem phiếu chấm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // OFFICIAL ANSWER KEY FOR DE 13 (Questions 1 - 32)
+        const answerKey = {
+            1: 'C', 2: 'A', 3: 'B', 4: 'D', 5: 'B',
+            6: 'A', 7: 'A', 8: 'A', 9: 'B', 10: 'A',
+            11: 'A', 12: 'B', 13: 'B', 14: 'A', 15: 'A',
+            16: 'C', 17: 'B', 18: 'A', 19: 'C', 20: 'D',
+            21: 'D', 22: 'A', 23: 'C', 24: 'B', 25: 'A',
+            26: 'A', 27: 'B', 28: 'C', 29: 'D', 30: 'D',
+            31: 'D', 32: 'D'
+        };
+
+        // EXPLANATIONS DATA FOR DE 13
+        const explanations = {
+            1: "C. Seven to nine hours. (Bác sĩ Dorothy Allen khuyến nghị: 'you need to give yourself seven to nine hours in bed each night').",
+            2: "A. Meat and vegetables. (Dẫn chứng: 'eat enough meat and vegetables to have a balanced diet').",
+            3: "B. Two days. (Dẫn chứng: 'give yourself two days to chill out and keep a healthy social life').",
+            4: "D. How to live a healthier life. (Cuộc phỏng vấn tập trung vào giấc ngủ, ăn uống và tập luyện để có cuộc sống khỏe hơn).",
+            5: "B. It helps their brains and manage feelings. (Dẫn chứng: 'their brains and bodies are developing ... manage our feelings').",
+            6: "A. True. (Dẫn chứng: 'Our city already has buses, but people don’t use them').",
+            7: "A. True. (Dẫn chứng: 'They’re definitely faster than our old buses').",
+            8: "A. True. (Dẫn chứng: 'because of traffic congestion ... They just move too slowly').",
+            9: "B. False. (John sau đó đồng ý: 'Yes, I see your point. Okay then').",
+            10: "A. True. (Dẫn chứng: 'If the fare isn’t too expensive ... tourism ... benefit everyone').",
+            11: "A. model. (MODEL nhấn âm 1; deSIGN, deCIDE, reDUCE nhấn âm 2).",
+            12: "B. allow. (aLLOW nhấn âm 2; FOOTprint, LIMit, MODern nhấn âm 1).",
+            13: "B. has worked. (Dấu hiệu 'for 2 years' -> Hiện tại hoàn thành; Peter số ít nên dùng 'has worked').",
+            14: "A. show. (Sau động từ khuyết thiếu must + V nguyên mẫu).",
+            15: "A. awful. (Smell là động từ nối, theo sau dùng tính từ 'awful').",
+            16: "C. independent. (Sau 'be' cần tính từ: be independent = độc lập).",
+            17: "B. renewable. (Năng lượng tái tạo 'renewable energy' giúp giảm tác động xấu đến môi trường).",
+            18: "A. unhappy. (Look + adj: looks unhappy = trông buồn vì không đạt điểm cao).",
+            19: "C. energetic. (Active trong 'an active lifestyle' = năng động, gần nghĩa với energetic).",
+            20: "D. in the pink. ('under the weather' = không khỏe ↔ 'in the pink' = rất khỏe mạnh).",
+            21: "D. up. (Cụm động từ 'take up a sport' = bắt đầu tập một môn thể thao).",
+            22: "A. who. (Đại từ quan hệ 'who' thay thế cho 'those' chỉ người).",
+            23: "C. however. (Trạng từ liên kết 'However' = tuy nhiên, thể hiện sự đối lập).",
+            24: "B. winning. (Chủ ngữ mệnh đề đứng trước 'isn't important' cần danh động từ 'winning').",
+            25: "A. challenge. ('an enjoyable challenge' = thử thách thú vị).",
+            26: "A. A question of data. (Bài đọc nhấn mạnh vai trò trung tâm của dữ liệu và mạng lưới kết nối IoT).",
+            27: "B. The importance of data network. (Tầm quan trọng của mạng dữ liệu trong việc vận hành thành phố thông minh).",
+            28: "C. services. ('they' thay thế cho 'services' ở câu trước).",
+            29: "D. upgraded. ('elevated' = nâng cao, cải thiện = upgraded).",
+            30: "D. Creating more job opportunities for local people. (Bài không đề cập đến việc tạo thêm cơ hội việc làm).",
+            31: "D. c – b – d – a. (Trình tự thời gian: First (c) -> Next (b) -> Then (d) -> Finally (a)).",
+            32: "D. a – c – b. (Mẫu hội thoại logic: a -> c -> b)."
+        };
+
+        // USER ANSWERS STORE
+        let userAnswers = {};
+
+        // INITIALIZE SCANTRON FORM
+        function initScantron() {
+            const col1 = document.getElementById('scantron-p1-col1');
+            const col2 = document.getElementById('scantron-p1-col2');
+
+            // Questions 1 - 32 Multiple Choice
+            for (let q = 1; q <= 32; q++) {
+                const qRow = document.createElement('div');
+                qRow.className = 'flex items-center justify-between bg-white px-2 py-1 rounded border border-slate-200 shadow-sm';
+                
+                let bubblesHTML = '';
+                ['A', 'B', 'C', 'D'].forEach(opt => {
+                    bubblesHTML += `
+                        <label class="inline-flex items-center cursor-pointer space-x-0.5">
+                            <input type="radio" name="q_${q}" value="${opt}" onchange="handleAnswerSelect(${q}, '${opt}')" class="bubble-input">
+                            <span class="text-[10px] font-bold text-slate-600">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                qRow.innerHTML = `
+                    <span class="font-bold text-slate-800 w-7 text-[11px]">Câu ${q}</span>
+                    <div class="flex items-center space-x-2 sm:space-x-3">
+                        ${bubblesHTML}
+                    </div>
+                `;
+
+                if (q <= 16) {
+                    col1.appendChild(qRow);
+                } else {
+                    col2.appendChild(qRow);
+                }
+            }
+
+            // Questions 6 - 10 True/False mapping box (Visual layout)
+            const p2Container = document.getElementById('scantron-p2-container');
+            for (let q = 6; q <= 10; q++) {
+                const tfBox = document.createElement('div');
+                tfBox.className = 'bg-white p-1.5 rounded border border-slate-300 text-center space-y-1';
+                tfBox.innerHTML = `
+                    <span class="font-bold text-slate-800 block text-[10px]">Câu ${q}</span>
+                    <div class="flex justify-center space-x-2">
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="tf_q_${q}" value="A" onchange="syncTFAnswer(${q}, 'A')" class="bubble-input">
+                            <span class="text-[9px] font-semibold text-emerald-700 mt-0.5">T(A)</span>
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="tf_q_${q}" value="B" onchange="syncTFAnswer(${q}, 'B')" class="bubble-input">
+                            <span class="text-[9px] font-semibold text-rose-700 mt-0.5">F(B)</span>
+                        </label>
+                    </div>
+                `;
+                p2Container.appendChild(tfBox);
+            }
+        }
+
+        // SYNC TRUE/FALSE SELECTIONS WITH SCANNABLE ANSWERS
+        function syncTFAnswer(qNum, value) {
+            userAnswers[qNum] = value;
+            playPencilSound();
+            // Sync with Part 1 radio input if present
+            const radio = document.querySelector(`input[name="q_${qNum}"][value="${value}"]`);
+            if (radio) radio.checked = true;
+        }
+
+        // HANDLE ANSWER SELECTION
+        function handleAnswerSelect(qNum, opt) {
+            userAnswers[qNum] = opt;
+            playPencilSound();
+
+            // Sync with Part 2 T/F display if q is 6..10
+            if (qNum >= 6 && qNum <= 10) {
+                const tfRadio = document.querySelector(`input[name="tf_q_${qNum}"][value="${opt}"]`);
+                if (tfRadio) tfRadio.checked = true;
+            }
+        }
+
+        // AUDIO PLAYER CUSTOM LOGIC & LOCAL FILE LOADER
+        const audioPlayer = document.getElementById('main-audio-player');
+
+        function loadLocalAudio(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                audioPlayer.src = fileURL;
+                document.getElementById('loaded-filename').textContent = `Đã chọn: ${file.name}`;
+                document.getElementById('loaded-filename').className = "text-[11px] text-emerald-400 font-semibold";
+                audioPlayer.play();
+                updatePlayBtnUI(true);
+            }
+        }
+
+        function toggleAudioPlay() {
+            if (!audioPlayer.src) {
+                alert("Vui lòng bấm 'Chọn file MP3' để tải file bài nghe Đề 13 của bạn!");
+                return;
+            }
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                updatePlayBtnUI(true);
+            } else {
+                audioPlayer.pause();
+                updatePlayBtnUI(false);
+            }
+        }
+
+        function updatePlayBtnUI(isPlaying) {
+            const icon = document.getElementById('audio-play-icon');
+            const text = document.getElementById('audio-play-text');
+            if (isPlaying) {
+                icon.className = 'fa-solid fa-pause';
+                text.textContent = 'Tạm dừng';
+            } else {
+                icon.className = 'fa-solid fa-play';
+                text.textContent = 'Phát';
+            }
+        }
+
+        function skipAudio(seconds) {
+            if (audioPlayer.src) {
+                audioPlayer.currentTime = Math.max(0, Math.min(audioPlayer.duration || 0, audioPlayer.currentTime + seconds));
+            }
+        }
+
+        function seekAudio(percent) {
+            if (audioPlayer.src && audioPlayer.duration) {
+                audioPlayer.currentTime = (percent / 100) * audioPlayer.duration;
+            }
+        }
+
+        function setPlaybackSpeed(speed) {
+            if (audioPlayer) {
+                audioPlayer.playbackRate = speed;
+                const btns = document.querySelectorAll('.speed-btn');
+                btns.forEach(btn => {
+                    if (parseFloat(btn.textContent) === speed) {
+                        btn.className = 'speed-btn px-1.5 py-0.5 rounded text-[11px] bg-blue-600 text-white font-bold';
+                    } else {
+                        btn.className = 'speed-btn px-1.5 py-0.5 rounded text-[11px] hover:bg-slate-700';
+                    }
+                });
+            }
+        }
+
+        function formatTime(sec) {
+            if (isNaN(sec)) return '00:00';
+            const m = Math.floor(sec / 60).toString().padStart(2, '0');
+            const s = Math.floor(sec % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        audioPlayer.ontimeupdate = function() {
+            if (audioPlayer.duration) {
+                const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                document.getElementById('audio-seek-bar').value = pct;
+                document.getElementById('audio-curr-time').textContent = formatTime(audioPlayer.currentTime);
+                document.getElementById('audio-dur-time').textContent = formatTime(audioPlayer.duration);
+            }
+        };
+
+        audioPlayer.onended = function() {
+            updatePlayBtnUI(false);
+        };
+
+        // REALISTIC WEB AUDIO API - MULTI-LAYERED PENCIL GRAPHITE SHADING SYNTHESIZER
+        function playPencilSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const strokeTimes = [0, 0.07];
+
+                strokeTimes.forEach((delay) => {
+                    const duration = 0.06;
+                    const bufferSize = ctx.sampleRate * duration;
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+
+                    for (let i = 0; i < bufferSize; i++) {
+                        const env = Math.sin((i / bufferSize) * Math.PI);
+                        data[i] = (Math.random() * 2 - 1) * env;
+                    }
+
+                    const noise = ctx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1400 + (Math.random() * 400 - 200), ctx.currentTime + delay);
+                    filter.Q.value = 1.8;
+
+                    const gain = ctx.createGain();
+                    gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+                    gain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + delay + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    noise.start(ctx.currentTime + delay);
+                });
+            } catch(e) {
+                console.log("Audio synth error:", e);
+            }
+        }
+
+        // WEB AUDIO API - SCANNER LASER SOUND SYNTHESIZER
+        function playScannerSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 1.2);
+                osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 2.4);
+
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2.5);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 2.5);
+            } catch(e) {
+                console.log("Scanner sound error:", e);
+            }
+        }
+
+        // COUNTDOWN TIMER LOGIC
+        let timerSeconds = 45 * 60; // 45 minutes
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').textContent = `${m}:${s}`;
+        }
+
+        function toggleTimer() {
+            const btnIcon = document.getElementById('timer-icon');
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                btnIcon.className = 'fa-solid fa-play';
+            } else {
+                isTimerRunning = true;
+                btnIcon.className = 'fa-solid fa-pause';
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("Đã hết thời gian làm bài! Tự động nộp bài.");
+                        gradeExam();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            document.getElementById('timer-icon').className = 'fa-solid fa-play';
+            timerSeconds = 45 * 60;
+            updateTimerDisplay();
+        }
+
+        // WORD COUNT FOR ESSAY
+        function updateWordCount() {
+            const text = document.getElementById('ans-essay').value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            document.getElementById('word-count').textContent = `${words} từ`;
+        }
+
+        // CONFIRM SUBMIT
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < 32) {
+                if (!confirm(`Bạn mới hoàn thành ${answeredCount}/32 câu trắc nghiệm. Bạn có chắc chắn muốn nộp bài?`)) {
+                    return;
+                }
+            }
+            gradeExam();
+        }
+
+        // GRADE EXAM WITH LASER SCANNER ANIMATION
+        function gradeExam() {
+            // Stop timer
+            if (isTimerRunning) toggleTimer();
+
+            // Start Scanner Animation & Sound
+            const scantron = document.getElementById('scantron-container');
+            scantron.classList.add('scanning');
+            playScannerSound();
+
+            // Delay grading reveal until scan finishes
+            setTimeout(() => {
+                scantron.classList.remove('scanning');
+                processGradingResults();
+            }, 2500);
+        }
+
+        function processGradingResults() {
+            let correctCount = 0;
+            let explanationHTML = '';
+
+            // Calculate Score (32 MCQs = 8 pts)
+            for (let q = 1; q <= 32; q++) {
+                const userAns = userAnswers[q];
+                const keyAns = answerKey[q];
+                const isCorrect = (userAns === keyAns);
+
+                if (isCorrect) correctCount++;
+
+                // Highlight bubbles on Scantron
+                const radios = document.querySelectorAll(`input[name="q_${q}"]`);
+                radios.forEach(radio => {
+                    if (radio.value === keyAns) {
+                        radio.classList.add('bubble-correct');
+                    } else if (radio.checked && radio.value !== keyAns) {
+                        radio.classList.add('bubble-wrong');
+                    }
+                });
+
+                // Generate Explanations
+                const statusBadge = isCorrect 
+                    ? '<span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800">Đúng</span>'
+                    : `<span class="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-800">Sai (Chọn: ${userAns || 'Bỏ trống'})</span>`;
+
+                explanationHTML += `
+                    <div class="p-3.5 rounded-lg border ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-slate-800">Câu ${q}: Đáp án đúng là <span class="text-blue-700 font-black">${keyAns}</span></span>
+                            ${statusBadge}
+                        </div>
+                        <p class="text-xs text-slate-600 italic mt-1">Lời giải: ${explanations[q] || 'Không có giải thích chi tiết.'}</p>
+                    </div>
+                `;
+            }
+
+            // Written sample answers feedback
+            const q33Val = document.getElementById('ans-q33').value;
+            const q34Val = document.getElementById('ans-q34').value;
+            const q35Val = document.getElementById('ans-q35').value;
+            const q36Val = document.getElementById('ans-q36').value;
+
+            explanationHTML += `
+                <div class="mt-6 border-t-2 border-slate-200 pt-4">
+                    <h4 class="font-bold text-blue-900 mb-3 text-base">ĐÁP ÁN THAM KHẢO PHẦN TỰ LUẬN (ĐỀ 13)</h4>
+                    <div class="space-y-3 text-xs bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <div>
+                            <p class="font-semibold text-slate-800">Câu 33: "Students must not cheat in the exam." (hoặc "Students are not allowed to cheat in the exam.")</p>
+                            <p class="text-slate-500">Bài làm của bạn: <span class="italic text-slate-900">${q33Val || '(Bỏ trống)'}</span></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-800">Câu 34: "I haven’t seen her since 2021."</p>
+                            <p class="text-slate-500">Bài làm của bạn: <span class="italic text-slate-900">${q34Val || '(Bỏ trống)'}</span></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-800">Câu 35: "I have been learning English for three years." (hoặc "I have learned English for three years.")</p>
+                            <p class="text-slate-500">Bài làm of bạn: <span class="italic text-slate-900">${q35Val || '(Bỏ trống)'}</span></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-800">Câu 36: "Students should do exercise regularly to stay healthy." (hoặc "Students should exercise regularly to stay healthy.")</p>
+                            <p class="text-slate-500">Bài làm của bạn: <span class="italic text-slate-900">${q36Val || '(Bỏ trống)'}</span></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Calculate overall 10-point scale
+            const score10 = ((correctCount / 32) * 8).toFixed(2); // MCQs represent 8/10 points
+            document.getElementById('score-text').textContent = `${score10}/8.0`;
+            document.getElementById('summary-text').textContent = `Đúng ${correctCount}/32 câu trắc nghiệm (Tương đương ${score10}/8.0 điểm TN)`;
+
+            document.getElementById('explanations-content').innerHTML = explanationHTML;
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').classList.add('hidden');
+        }
+
+        // INITIALIZE APPLICATION ON WINDOW LOAD
+        window.onload = function() {
+            initScantron();
+            updateTimerDisplay();
+        };
+    </script>
+</body>
+</html>
+
+
